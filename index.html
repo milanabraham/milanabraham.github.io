@@ -1,441 +1,1649 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MILAN - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <title>Milan Korah Abraham | Portfolio </title>
-    <link rel="icon" type="image/x-icon" href="images\favicon\icon.png">
+        body {
+            font-family: 'Whitney', 'Helvetica Neue', Arial, sans-serif;
+            background: #36393f;
+            color: #dcddde;
+            overflow-x: hidden;
+        }
 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/unicons.css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+        /* Discord Loading Animation */
+        .discord-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #202225;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: loaderFadeOut 0.5s ease 2.5s forwards;
+        }
 
-<link rel="stylesheet" href="css/mystyle.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        @keyframes loaderFadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
 
+        .discord-logo {
+            width: 120px;
+            height: 120px;
+            background: #5865f2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            animation: logoBounce 1s ease-in-out infinite;
+            margin-bottom: 30px;
+        }
 
-    <!-- MAIN STYLE -->
-    <link rel="stylesheet" href="css/tooplate-style.css">
+        @keyframes logoBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
 
-  </head>
-  <body>
+        .loading-text {
+            font-size: 20px;
+            color: #b9bbbe;
+            margin-bottom: 20px;
+        }
 
-    <!-- MENU -->
-    <nav class="navbar navbar-expand-sm navbar-light">
-        <div class="container">
-           
+        .loading-bar {
+            width: 300px;
+            height: 8px;
+            background: #2f3136;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: #5865f2;
+            border-radius: 4px;
+            animation: loadingProgress 2s ease forwards;
+        }
+
+        @keyframes loadingProgress {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        /* Server Selection */
+        .server-select {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #36393f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9000;
+            opacity: 0;
+            visibility: hidden;
+            animation: serverFadeIn 0.5s ease 3s forwards;
+        }
+
+        @keyframes serverFadeIn {
+            to {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+
+        .server-select.hidden {
+            animation: serverFadeOut 0.4s ease forwards;
+        }
+
+        @keyframes serverFadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .server-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 50px;
+            color: #fff;
+        }
+
+        .server-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 900px;
+        }
+
+        .server-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .server-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .server-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .server-item:hover .server-icon {
+            border-radius: 35%;
+        }
+
+        .server-icon.recruiter { background: #5865f2; }
+        .server-icon.developer { background: #57f287; }
+        .server-icon.stalker { background: #fee75c; }
+        .server-icon.adventurer { background: #eb459e; }
+
+        .server-name {
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #b9bbbe;
+        }
+
+        .server-item:hover .server-name {
+            color: #fff;
+        }
+
+        /* Main Layout */
+        .main-content {
+            opacity: 0;
+            visibility: hidden;
+            display: flex;
+            height: 100vh;
+        }
+
+        .main-content.visible {
+            opacity: 1;
+            visibility: visible;
+            animation: contentFadeIn 0.5s ease;
+        }
+
+        @keyframes contentFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Server Sidebar */
+        .server-sidebar {
+            width: 72px;
+            background: #202225;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 0;
+            gap: 8px;
+            overflow-y: auto;
+        }
+
+        .home-icon {
+            width: 48px;
+            height: 48px;
+            background: #5865f2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .home-icon:hover {
+            border-radius: 35%;
+            background: #4752c4;
+        }
+
+        .server-divider {
+            width: 32px;
+            height: 2px;
+            background: #2f3136;
+            border-radius: 1px;
+            margin: 4px 0;
+        }
+
+        .server-icon-small {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 24px;
+            position: relative;
+        }
+
+        .server-icon-small:hover {
+            border-radius: 35%;
+        }
+
+        .server-icon-small.active::before {
+            content: '';
+            position: absolute;
+            left: -12px;
+            width: 8px;
+            height: 40px;
+            background: #fff;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .add-server {
+            background: #2f3136;
+            color: #3ba55d;
+            font-size: 28px;
+            font-weight: 300;
+        }
+
+        .add-server:hover {
+            background: #3ba55d;
+            color: #fff;
+        }
+
+        /* Channel Sidebar */
+        .channel-sidebar {
+            width: 240px;
+            background: #2f3136;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .server-header {
+            height: 48px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #202225;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .server-header:hover {
+            background: #34373c;
+        }
+
+        .server-name-header {
+            font-weight: 700;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .dropdown-icon {
+            font-size: 12px;
+            color: #b9bbbe;
+        }
+
+        .channels-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 8px;
+        }
+
+        .channel-category {
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #96989d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .channel-category:hover {
+            color: #dcddde;
+        }
+
+        .channel-item {
+            padding: 6px 8px;
+            margin: 2px 0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #96989d;
+        }
+
+        .channel-item:hover {
+            background: #3c3f45;
+            color: #dcddde;
+        }
+
+        .channel-item.active {
+            background: #404249;
+            color: #fff;
+        }
+
+        .channel-icon {
+            font-size: 18px;
+            color: #96989d;
+        }
+
+        .channel-item.active .channel-icon {
+            color: #fff;
+        }
+
+        .channel-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-area {
+            height: 52px;
+            background: #292b2f;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            gap: 8px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5865f2, #eb459e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .user-status {
+            font-size: 12px;
+            color: #b9bbbe;
+        }
+
+        .user-icons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .user-icon-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            color: #b9bbbe;
+        }
+
+        .user-icon-btn:hover {
+            background: #3c3f45;
+            color: #dcddde;
+        }
+
+        /* Main Chat Area */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #36393f;
+        }
+
+        .chat-header {
+            height: 48px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #202225;
+            box-shadow: 0 1px 0 rgba(4, 4, 5, 0.2);
+        }
+
+        .chat-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .chat-description {
+            margin-left: 8px;
+            padding-left: 8px;
+            border-left: 1px solid #4e5058;
+            font-size: 14px;
+            color: #96989d;
+            font-weight: 400;
+        }
+
+        .chat-icons {
+            margin-left: auto;
+            display: flex;
+            gap: 16px;
+        }
+
+        .chat-icon-btn {
+            color: #b9bbbe;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .chat-icon-btn:hover {
+            color: #dcddde;
+        }
+
+        /* Messages Area */
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .welcome-message {
+            padding: 40px 16px;
+        }
+
+        .welcome-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #5865f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .welcome-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .welcome-text {
+            font-size: 16px;
+            color: #b9bbbe;
+            line-height: 1.6;
+        }
+
+        /* Message */
+        .message {
+            padding: 8px 16px;
+            display: flex;
+            gap: 16px;
+            transition: background 0.1s ease;
+            animation: messageSlideIn 0.3s ease;
+        }
+
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message:hover {
+            background: #32353b;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            flex: 1;
+        }
+
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .message-author {
+            font-weight: 600;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .message-timestamp {
+            font-size: 12px;
+            color: #72767d;
+        }
+
+        .message-text {
+            color: #dcddde;
+            line-height: 1.5;
+            font-size: 16px;
+        }
+
+        /* Embed Card */
+        .embed-card {
+            margin-top: 8px;
+            max-width: 520px;
+            border-left: 4px solid #5865f2;
+            background: #2f3136;
+            border-radius: 4px;
+            padding: 12px 16px;
+        }
+
+        .embed-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #00aff4;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .embed-title:hover {
+            text-decoration: underline;
+        }
+
+        .embed-description {
+            font-size: 14px;
+            color: #dcddde;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .embed-fields {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .embed-field {
+            font-size: 14px;
+        }
+
+        .embed-field-name {
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .embed-field-value {
+            color: #b9bbbe;
+        }
+
+        /* Project Grid */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .project-card {
+            background: #2f3136;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            border-color: #5865f2;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .project-image {
+            height: 150px;
+            background: linear-gradient(135deg, #5865f2, #eb459e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .project-card:nth-child(2) .project-image {
+            background: linear-gradient(135deg, #57f287, #3ba55d);
+        }
+
+        .project-card:nth-child(3) .project-image {
+            background: linear-gradient(135deg, #fee75c, #f0b232);
+        }
+
+        .project-card:nth-child(4) .project-image {
+            background: linear-gradient(135deg, #eb459e, #ed4245);
+        }
+
+        .project-info {
+            padding: 16px;
+        }
+
+        .project-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .project-description {
+            font-size: 14px;
+            color: #b9bbbe;
+            line-height: 1.4;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .project-tag {
+            padding: 4px 8px;
+            background: #5865f2;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        /* Skills List */
+        .skills-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .skill-item {
+            background: #2f3136;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #5865f2;
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            background: #34373c;
+            transform: translateX(4px);
+        }
+
+        .skill-item:nth-child(2) { border-left-color: #57f287; }
+        .skill-item:nth-child(3) { border-left-color: #fee75c; }
+        .skill-item:nth-child(4) { border-left-color: #eb459e; }
+        .skill-item:nth-child(5) { border-left-color: #ed4245; }
+        .skill-item:nth-child(6) { border-left-color: #3ba55d; }
+
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .skill-emoji {
+            font-size: 32px;
+        }
+
+        .skill-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .skill-tag {
+            padding: 4px 10px;
+            background: #202225;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #b9bbbe;
+            transition: all 0.2s ease;
+        }
+
+        .skill-tag:hover {
+            background: #36393f;
+            color: #fff;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: modalFadeIn 0.2s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: #36393f;
+            max-width: 600px;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            animation: modalSlideUp 0.3s ease;
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            padding: 16px;
+            border-bottom: 1px solid #202225;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            color: #b9bbbe;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: #f23f42;
+            color: #fff;
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .modal-body p {
+            color: #dcddde;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .modal-footer {
+            padding: 16px;
+            background: #2f3136;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 10px 16px;
+            border-radius: 4px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-btn-primary {
+            background: #5865f2;
+            color: #fff;
+        }
+
+        .modal-btn-primary:hover {
+            background: #4752c4;
+        }
+
+        .modal-btn-secondary {
+            background: transparent;
+            color: #fff;
+        }
+
+        .modal-btn-secondary:hover {
+            text-decoration: underline;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: #2f3136;
+            border-radius: 8px;
+            padding: 24px;
+            margin-top: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #b9bbbe;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 10px;
+            background: #202225;
+            border: 1px solid #202225;
+            border-radius: 4px;
+            color: #dcddde;
+            font-size: 16px;
+            font-family: inherit;
+            margin-bottom: 16px;
+            transition: border 0.2s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #5865f2;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 12px;
+            background: #5865f2;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .form-submit:hover {
+            background: #4752c4;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #2f3136;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #202225;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1a1c1f;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .server-sidebar {
+                display: none;
+            }
+
+            .channel-sidebar {
+                width: 200px;
+            }
+
+            .chat-description {
+                display: none;
+            }
+
+            .chat-icons {
+                gap: 12px;
+            }
+
+            .embed-fields {
+                grid-template-columns: 1fr;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-list {
+                grid-template-columns: 1fr;
+            }
+
+            .server-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Discord Loading Screen -->
+    <div class="discord-loader">
+        <div class="discord-logo">💼</div>
+        <div class="loading-text">Loading Portfolio...</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <!-- Server Selection -->
+    <div class="server-select" id="serverSelect">
+        <h1 class="server-title">Choose Your Path</h1>
+        <div class="server-grid">
+            <div class="server-item" onclick="selectServer('recruiter')">
+                <div class="server-icon recruiter">💼</div>
+                <div class="server-name">Recruiter</div>
+            </div>
+            <div class="server-item" onclick="selectServer('developer')">
+                <div class="server-icon developer">👨‍💻</div>
+                <div class="server-name">Developer</div>
+            </div>
+            <div class="server-item" onclick="selectServer('stalker')">
+                <div class="server-icon stalker">👀</div>
+                <div class="server-name">Stalker</div>
+            </div>
+            <div class="server-item" onclick="selectServer('adventurer')">
+                <div class="server-icon adventurer">🚀</div>
+                <div class="server-name">Adventurer</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Server Sidebar -->
+        <div class="server-sidebar">
+            <div class="home-icon" title="Home">🏠</div>
+            <div class="server-divider"></div>
+            <div class="server-icon-small active" style="background: #5865f2;" id="serverIcon">💼</div>
+            <div class="server-icon-small" style="background: #57f287;">📁</div>
+            <div class="server-icon-small" style="background: #fee75c;">⚡</div>
+            <div class="server-icon-small" style="background: #eb459e;">🎨</div>
+            <div class="server-divider"></div>
+            <div class="server-icon-small add-server">+</div>
+        </div>
+
+        <!-- Channel Sidebar -->
+        <div class="channel-sidebar">
+            <div class="server-header">
+                <span class="server-name-header">MILAN's Portfolio</span>
+                <span class="dropdown-icon">▼</span>
+            </div>
             
-          <a class="navbar-brand" href="index.html">
-            <img src="images/display/profile.png" alt="Milan Korah Abraham" oncontextmenu="return false;">
-            <span class="myname">Milan Korah Abraham</span>
-          </a>
-          
+            <div class="channels-container">
+                <div class="channel-category">
+                    <span>▼</span>
+                    <span>About Me</span>
+                </div>
+                <div class="channel-item active" onclick="showChannel('home')">
+                    <span class="channel-icon">#</span>
+                    <span class="channel-name">welcome</span>
+                </div>
+                
+                <div class="channel-category">
+                    <span>▼</span>
+                    <span>Portfolio</span>
+                </div>
+                <div class="channel-item" onclick="showChannel('projects')">
+                    <span class="channel-icon">#</span>
+                    <span class="channel-name">projects</span>
+                </div>
+                <div class="channel-item" onclick="showChannel('skills')">
+                    <span class="channel-icon">#</span>
+                    <span class="channel-name">skills</span>
+                </div>
+                <div class="channel-item" onclick="showChannel('experience')">
+                    <span class="channel-icon">#</span>
+                    <span class="channel-name">experience</span>
+                </div>
+                
+                <div class="channel-category">
+                    <span>▼</span>
+                    <span>Connect</span>
+                </div>
+                <div class="channel-item" onclick="showChannel('contact')">
+                    <span class="channel-icon">✉️</span>
+                    <span class="channel-name">contact</span>
+                </div>
+            </div>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-                <span class="navbar-toggler-icon"></span>
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item">
-                        <a href="#about" class="nav-link"><span data-hover="About">About</span></a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="#skills" class="nav-link"><span data-hover="Skills">Skills</span></a>
-                  </li>
-                    <li class="nav-item">
-                        <a href="#resume" class="nav-link"><span data-hover="Resume">Resume</span></a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="#services" class="nav-link"><span data-hover="Services">Services</span></a>
-                  </li>
-                    <li class="nav-item">
-                        <a href="#contact" class="nav-link"><span data-hover="Contact">Contact</span></a>
-                    </li>
-                </ul>
-
-                <ul class="navbar-nav ml-lg-auto">
-                    <div class="ml-lg-4">
-                      <div class="color-mode d-lg-flex justify-content-center align-items-center">
-                        <i class="color-mode-icon"></i>
-                      <!--Color Mode-->
-                      </div>
-                    </div>
-                </ul>
+            <div class="user-area">
+                <div class="user-avatar" id="userAvatar">💼</div>
+                <div class="user-info">
+                    <div class="user-name">MILAN</div>
+                    <div class="user-status">Online</div>
+                </div>
+                <div class="user-icons">
+                    <div class="user-icon-btn">🔇</div>
+                    <div class="user-icon-btn">🎧</div>
+                    <div class="user-icon-btn">⚙️</div>
+                </div>
             </div>
         </div>
-    </nav>
 
-    <!-- ABOUT -->
-    <section class="about full-screen d-lg-flex justify-content-center align-items-center" id="about">
-        <div class="container">
-            <div class="row">
-                
-                <div class="col-lg-7 col-md-12 col-12 d-flex align-items-center">
-                    <div class="about-text">
-                        <small class="small-text">It’s not a bug.<span class="mobile-block"> It’s an undocumented feature!</span></small>
-                        <h1 class="animated animated-text">
-                            <span class="mr-2">Hai There, I'm</span>
-                                <div class="animated-info">
-                                    <span class="animated-item">Milan</span>
-                                    <span class="animated-item">BCA Student</span>
-                                    <span class="animated-item">Web Designer</span>
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <span>#</span>
+                    <span id="channelName">welcome</span>
+                </div>
+                <div class="chat-description" id="channelDescription">Welcome to my portfolio!</div>
+                <div class="chat-icons">
+                    <div class="chat-icon-btn">🔔</div>
+                    <div class="chat-icon-btn">📌</div>
+                    <div class="chat-icon-btn">👥</div>
+                    <div class="chat-icon-btn">🔍</div>
+                </div>
+            </div>
+
+            <div class="messages-container" id="messagesContainer">
+                <!-- Home Channel -->
+                <div class="channel-content" id="homeChannel">
+                    <div class="welcome-message">
+                        <div class="welcome-icon">👋</div>
+                        <h1 class="welcome-title">Welcome to #welcome</h1>
+                        <p class="welcome-text">This is the beginning of your journey through my portfolio. Feel free to explore different channels to learn more about my projects, skills, and experience!</p>
+                    </div>
+
+                    <div class="message">
+                        <div class="message-avatar" style="background: #5865f2;">💼</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-author">MILAN</span>
+                                <span class="message-timestamp">Today at 12:00 PM</span>
+                            </div>
+                            <div class="message-text">
+                                Hey there! I'm Milan, a Full-Stack Developer currently working at TCS as a System Engineer. I'm passionate about building scalable web applications and solving complex problems with code.
+                            </div>
+                            <div class="embed-card">
+                                <div class="embed-title">About Me</div>
+                                <div class="embed-description">
+                                    Building scalable web applications with Python, Java, and modern frameworks. Currently working at TCS as a System Engineer, creating solutions that make a difference.
                                 </div>
-                        </h1>
+                                <div class="embed-fields">
+                                    <div class="embed-field">
+                                        <div class="embed-field-name">Role</div>
+                                        <div class="embed-field-value">Full-Stack Dev</div>
+                                    </div>
+                                    <div class="embed-field">
+                                        <div class="embed-field-name">Company</div>
+                                        <div class="embed-field-value">TCS</div>
+                                    </div>
+                                    <div class="embed-field">
+                                        <div class="embed-field-name">Status</div>
+                                        <div class="embed-field-value">Available 🟢</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                        <p>Building a successful product is a challenge. I am highly energetic in user experience design, interfaces and web development.</p>
-                        
-                        <div class="custom-btn-group mt-4">
-                          <a href="./files/MilanResumeUp.pdf" class="btn mr-lg-2 custom-btn" target="_blank"><i class='uil uil-file-alt'></i> Download Resume</a>
-                          <a href="#contact" class="btn custom-btn custom-btn-bg custom-btn-link">Leave a message</a>
+                    <div class="message">
+                        <div class="message-avatar" style="background: #57f287;">🤖</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-author" style="color: #57f287;">Portfolio Bot</span>
+                                <span class="message-timestamp">Today at 12:01 PM</span>
+                            </div>
+                            <div class="message-text">
+                                Navigate through the channels on the left to explore:
+                                <br>• #projects - View my latest work
+                                <br>• #skills - Check out my technical stack
+                                <br>• #experience - Learn about my journey
+                                <br>• #contact - Get in touch with me
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-5 col-md-12 col-12">
-                    <div class="about-image svg">
-                        <img src="images/display/coder.svg" class="img-fluid" alt="svg image">
+                <!-- Projects Channel -->
+                <div class="channel-content" id="projectsChannel" style="display: none;">
+                    <div class="welcome-message">
+                        <div class="welcome-icon">📁</div>
+                        <h1 class="welcome-title">Welcome to #projects</h1>
+                        <p class="welcome-text">Check out some of the projects I've worked on. Click on any project to learn more!</p>
+                    </div>
+
+                    <div class="message">
+                        <div class="message-avatar" style="background: #5865f2;">💼</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-author">MILAN</span>
+                                <span class="message-timestamp">Today at 12:05 PM</span>
+                            </div>
+                            <div class="message-text">
+                                Here are some of my featured projects:
+                            </div>
+                            <div class="project-grid">
+                                <div class="project-card" onclick="openModal('library')">
+                                    <div class="project-image">📚</div>
+                                    <div class="project-info">
+                                        <div class="project-title">Library System</div>
+                                        <div class="project-description">Comprehensive library management system with Django & PostgreSQL</div>
+                                        <div class="project-tags">
+                                            <span class="project-tag">Django</span>
+                                            <span class="project-tag">PostgreSQL</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project-card" onclick="openModal('student')">
+                                    <div class="project-image">🎓</div>
+                                    <div class="project-info">
+                                        <div class="project-title">Student Portal</div>
+                                        <div class="project-description">Enterprise student management with Spring Boot & MySQL</div>
+                                        <div class="project-tags">
+                                            <span class="project-tag">Java</span>
+                                            <span class="project-tag">Spring</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project-card" onclick="openModal('automation')">
+                                    <div class="project-image">🤖</div>
+                                    <div class="project-info">
+                                        <div class="project-title">Web Automation</div>
+                                        <div class="project-description">Automated testing framework with Python & Selenium</div>
+                                        <div class="project-tags">
+                                            <span class="project-tag">Python</span>
+                                            <span class="project-tag">Selenium</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project-card" onclick="openModal('api')">
+                                    <div class="project-image">⚡</div>
+                                    <div class="project-info">
+                                        <div class="project-title">REST API</div>
+                                        <div class="project-description">Scalable API with Flask, MongoDB & JWT auth</div>
+                                        <div class="project-tags">
+                                            <span class="project-tag">Flask</span>
+                                            <span class="project-tag">MongoDB</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project-card" onclick="openModal('ecommerce')">
+                                    <div class="project-image">🛒</div>
+                                    <div class="project-info">
+                                        <div class="project-title">E-Commerce</div>
+                                        <div class="project-description">Full-featured online store with payment integration</div>
+                                        <div class="project-tags">
+                                            <span class="project-tag">Django</span>
+                                            <span class="project-tag">Stripe</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project-card" onclick="openModal('portfolio')">
+                                    <div class="project-image">💎</div>
+                                    <div class="project-info">
+                                        <div class="project-title">Portfolio</div>
+                                        <div class="project-description">This Discord-style interactive portfolio!</div>
+                                        <div class="project-tags">
+                                            <span class="project-tag">HTML</span>
+                                            <span class="project-tag">CSS</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Skills Channel -->
+                <div class="channel-content" id="skillsChannel" style="display: none;">
+                    <div class="welcome-message">
+                        <div class="welcome-icon">⚡</div>
+                        <h1 class="welcome-title">Welcome to #skills</h1>
+                        <p class="welcome-text">My technical arsenal and the technologies I work with daily.</p>
+                    </div>
+
+                    <div class="message">
+                        <div class="message-avatar" style="background: #5865f2;">💼</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-author">MILAN</span>
+                                <span class="message-timestamp">Today at 12:10 PM</span>
+                            </div>
+                            <div class="message-text">
+                                Here's my tech stack:
+                            </div>
+                            <div class="skills-list">
+                                <div class="skill-item">
+                                    <div class="skill-header">
+                                        <div class="skill-emoji">💻</div>
+                                        <div class="skill-title">Programming</div>
+                                    </div>
+                                    <div class="skill-tags">
+                                        <span class="skill-tag">Python</span>
+                                        <span class="skill-tag">Java</span>
+                                        <span class="skill-tag">JavaScript</span>
+                                        <span class="skill-tag">SQL</span>
+                                    </div>
+                                </div>
+
+                                <div class="skill-item">
+                                    <div class="skill-header">
+                                        <div class="skill-emoji">🔧</div>
+                                        <div class="skill-title">Backend</div>
+                                    </div>
+                                    <div class="skill-tags">
+                                        <span class="skill-tag">Django</span>
+                                        <span class="skill-tag">Flask</span>
+                                        <span class="skill-tag">Spring Boot</span>
+                                        <span class="skill-tag">REST APIs</span>
+                                    </div>
+                                </div>
+
+                                <div class="skill-item">
+                                    <div class="skill-header">
+                                        <div class="skill-emoji">🗄️</div>
+                                        <div class="skill-title">Databases</div>
+                                    </div>
+                                    <div class="skill-tags">
+                                        <span class="skill-tag">MySQL</span>
+                                        <span class="skill-tag">PostgreSQL</span>
+                                        <span class="skill-tag">MongoDB</span>
+                                        <span class="skill-tag">SQLite</span>
+                                    </div>
+                                </div>
+
+                                <div class="skill-item">
+                                    <div class="skill-header">
+                                        <div class="skill-emoji">⚙️</div>
+                                        <div class="skill-title">Tools</div>
+                                    </div>
+                                    <div class="skill-tags">
+                                        <span class="skill-tag">Git & GitHub</span>
+                                        <span class="skill-tag">Docker</span>
+                                        <span class="skill-tag">Linux</span>
+                                        <span class="skill-tag">VS Code</span>
+                                    </div>
+                                </div>
+
+                                <div class="skill-item">
+                                    <div class="skill-header">
+                                        <div class="skill-emoji">🤖</div>
+                                        <div class="skill-title">Automation</div>
+                                    </div>
+                                    <div class="skill-tags">
+                                        <span class="skill-tag">Selenium</span>
+                                        <span class="skill-tag">Bash</span>
+                                        <span class="skill-tag">Testing</span>
+                                        <span class="skill-tag">CI/CD</span>
+                                    </div>
+                                </div>
+
+                                <div class="skill-item">
+                                    <div class="skill-header">
+                                        <div class="skill-emoji">📚</div>
+                                        <div class="skill-title">Learning</div>
+                                    </div>
+                                    <div class="skill-tags">
+                                        <span class="skill-tag">React.js</span>
+                                        <span class="skill-tag">Node.js</span>
+                                        <span class="skill-tag">Kubernetes</span>
+                                        <span class="skill-tag">AWS</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experience Channel -->
+                <div class="channel-content" id="experienceChannel" style="display: none;">
+                    <div class="welcome-message">
+                        <div class="welcome-icon">💼</div>
+                        <h1 class="welcome-title">Welcome to #experience</h1>
+                        <p class="welcome-text">My professional journey and educational background.</p>
+                    </div>
+
+                    <div class="message">
+                        <div class="message-avatar" style="background: #5865f2;">💼</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-author">MILAN</span>
+                                <span class="message-timestamp">Today at 12:15 PM</span>
+                            </div>
+                            <div class="message-text">
+                                My professional experience:
+                            </div>
+                            <div class="embed-card" style="border-left-color: #57f287;">
+                                <div class="embed-title">System Engineer @ TCS</div>
+                                <div class="embed-description">
+                                    Working as a System Engineer at Tata Consultancy Services. Responsibilities include backend development, API integration, database optimization, and automation scripting. Collaborated with cross-functional teams on enterprise applications. Implemented solutions that improved system performance by 30%.
+                                </div>
+                                <div class="embed-fields">
+                                    <div class="embed-field">
+                                        <div class="embed-field-name">Duration</div>
+                                        <div class="embed-field-value">2022 - Present</div>
+                                    </div>
+                                    <div class="embed-field">
+                                        <div class="embed-field-name">Technologies</div>
+                                        <div class="embed-field-value">Python, Java, SQL</div>
+                                    </div>
+                                    <div class="embed-field">
+                                        <div class="embed-field-name">Type</div>
+                                        <div class="embed-field-value">Full-time</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message">
+                        <div class="message-avatar" style="background: #fee75c;">🎓</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-author">MILAN</span>
+                                <span class="message-timestamp">Today at 12:16 PM</span>
+                            </div>
+                            <div class="message-text">
+                                My education:
+                            </div>
+                            <div class="embed-card" style="border-left-color: #fee75c;">
+                                <div class="embed-title">BCA - BVM Holy Cross College</div>
+                                <div class="embed-description">
+                                    Bachelor of Computer Applications from BVM Holy Cross College. Coursework included programming fundamentals, data structures, database management, web development, and software engineering. Graduated with strong foundation in computer science principles.
+                                </div>
+                                <div class="embed-fields">
+                                    <div class="embed-field">
+                                        <div class="embed-field-name">Duration</div>
+                                        <div class="embed-field-value">2019 - 2022</div>
+                                    </div>
+                                    <div class="embed-field">
+                                        <div class="embed-field-name">Degree</div>
+                                        <div class="embed-field-value">BCA</div>
+                                    </div>
+                                    <div class="embed-field">
+                                        <div class="embed-field-name">Focus</div>
+                                        <div class="embed-field-value">Computer Science</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Channel -->
+                <div class="channel-content" id="contactChannel" style="display: none;">
+                    <div class="welcome-message">
+                        <div class="welcome-icon">✉️</div>
+                        <h1 class="welcome-title">Welcome to #contact</h1>
+                        <p class="welcome-text">Let's connect! Fill out the form below to get in touch with me.</p>
+                    </div>
+
+                    <div class="message">
+                        <div class="message-avatar" style="background: #5865f2;">💼</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-author">MILAN</span>
+                                <span class="message-timestamp">Today at 12:20 PM</span>
+                            </div>
+                            <div class="message-text">
+                                I'd love to hear from you! Whether you have a question, want to discuss a project, or just want to say hi, feel free to reach out.
+                            </div>
+                            <form class="contact-form" onsubmit="handleSubmit(event)">
+                                <label class="form-label">Name</label>
+                                <input type="text" class="form-input" required>
+
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-input" required>
+
+                                <label class="form-label">Mobile</label>
+                                <input type="tel" class="form-input" required>
+
+                                <label class="form-label">Message</label>
+                                <textarea class="form-textarea" required></textarea>
+
+                                <button type="submit" class="form-submit">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- PROJECTS
-    <section class="project py-5" id="project">
-        <div class="container">
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Project Details</div>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Close</button>
+                <button class="modal-btn modal-btn-primary">View Code</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedServer = null;
+
+        // Server selection
+        function selectServer(server) {
+            selectedServer = server;
+            document.getElementById('serverSelect').classList.add('hidden');
+            
+            setTimeout(() => {
+                document.getElementById('mainContent').classList.add('visible');
                 
-                <div class="row">
-                  <div class="col-lg-11 text-center mx-auto col-12">
-
-                      <div class="col-lg-8 mx-auto">
-                        <h2>Look at some of my projects</h2>
-                      </div>
-
-                      <div class="owl-carousel owl-theme">
-                        <div class="item">
-                          <div class="project-info">
-                            <img src="images/project/project-image01.png" class="img-fluid" alt="project image">
-                          </div>
-                        </div>
-
-                        <div class="item">
-                          <div class="project-info">
-                            <img src="images/project/project-image02.png" class="img-fluid" alt="project image">
-                          </div>
-                        </div>
-
-                        <div class="item">
-                          <div class="project-info">
-                            <img src="images/project/project-image03.png" class="img-fluid" alt="project image">
-                          </div>
-                        </div>
-
-                        <div class="item">
-                          <div class="project-info">
-                            <img src="images/project/project-image04.png" class="img-fluid" alt="project image">
-                          </div>
-                        </div>
-
-                        <div class="item">
-                          <div class="project-info">
-                            <img src="images/project/project-image05.png" class="img-fluid" alt="project image">
-                          </div>
-                        </div>
-                      </div>
-
-                  </div>
-                </div>
-        </div>
-    </section> -->
-
-
-
-
-    <section class="mysection" id="skills">
-      <div class="container">
-
-        <h2 class="head2">Designing Is My Passion</h2>
-          <p class="headdescription">
-            Full-Stack Developer with 22 months of experience in Front-End Development. I am passionate about Artificial Intelligence and Robotics. I am focused on a wide range of projects such as Library Management System, which have allowed me to develop my skills in programming. I am constantly learning and keeping up to date with the latest trends and technologies in software field. In addition, I have a BCA Degree from BVM Holy Cross College and have completed several trainings and workshops to further enhance my skills.
-          </p>
-        <h2 class="head2">Skills Reflects Our Knowledge</h2>
-          <p class="headdescription">
-            With proficiency in C, C++, HTML, CSS, and JavaScript, I possess a solid foundation in programming and web development. I excel in database management using MySQL, ensuring efficient data organization and retrieval. Furthermore, my completion of a comprehensive CEH course has equipped me with fundamental ethical hacking skills, allowing me to identify vulnerabilities and implement robust security measures. In addition, I possess intermediate-level knowledge in stock analysis and portfolio management, enabling me to make informed investment decisions based on market trends. Overall, my diverse skill set in programming, web development, database management, ethical hacking, and stock analysis reflects my expertise in these areas. I am eager to apply my knowledge to contribute to innovative projects and deliver exceptional results.
-          </p>
-
-      </div>
-    </section>
-
-
-
-
-
-
-    <!-- FEATURES -->
-    <section class="resume py-5 d-lg-flex justify-content-center align-items-center" id="resume">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-lg-6 col-12">
-                  <h2 class="mb-4">Expertise</h2>
-
-                    <div class="timeline">
-                        <div class="timeline-wrapper">
-                             <div class="timeline-yr">
-                                  <span>90%</span>
-                             </div>
-                             <div class="timeline-info">
-                                  <h3><span>HTML-CSS-JS</span><small></small></h3>
-                                  <p>Expertise in front-end development with HTML, CSS, and JavaScript, crafting dynamic and visually appealing web interfaces for enhanced user experiences.</p>
-                             </div>
-                        </div>
-
-                        <div class="timeline-wrapper">
-                            <div class="timeline-yr">
-                                <span>80%</span>
-                            </div>
-                            <div class="timeline-info">
-                                <h3><span>PYTHON</span><small></small></h3>
-                                <p>Proficient in Python programming, specializing in web application development, data analysis, and automation, leveraging its versatility to create scalable and efficient solutions.</p>
-                            </div>
-                        </div>
-
-                        <div class="timeline-wrapper">
-                            <div class="timeline-yr">
-                                <span>70%</span>
-                            </div>
-                            <div class="timeline-info">
-                              <h3><span>JAVA<small></small></h3>
-                                <p>Skilled in Java programming for basic development, capable of building robust enterprise applications, web services, and Android mobile apps with high performance and reliability.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-wrapper">
-                            <div class="timeline-yr">
-                                <span>70%</span>
-                            </div>
-                            <div class="timeline-info">
-                                <h3><span>PHP<small></small></h3>
-                                <p>Proficient in PHP programming, adept at server-side scripting and web development tasks, including dynamic content generation and interaction with databases, facilitating the creation of dynamic and interactive web applications.</p>
-                            </div>
-                        </div>
-
-                        <div class="timeline-wrapper">
-                          <div class="timeline-yr">
-                              <span>70%</span>
-                          </div>
-                          <div class="timeline-info">
-                              <h3><span>MySQL<small></small></h3>
-                              <p>Skilled in MySQL database management, proficient in designing and optimizing relational databases, ensuring efficient data storage, retrieval, and management for web applications and systems.</p>
-                          </div>
-                      </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 col-12">
-                  <h2 class="mb-4 mobile-mt-2">Certifications</h2>
-
-                    <div class="timeline">
-                        <div class="timeline-wrapper">
-                             <div class="timeline-yr">
-                                  <span>2023</span>
-                             </div>
-                             <div class="timeline-info">
-                                  <h3><span>Data Analytics using python</span><small></small></h3>
-                                  <p>Elevate your data analytics skills with Python. Explore data manipulation, statistical analysis, and visualization techniques to tackle complex data challenges and drive impactful decisions.</p>
-                             </div>
-                        </div>
-
-                        <div class="timeline-wrapper">
-                            <div class="timeline-yr">
-                                <span>2023</span>
-                            </div>
-                            <div class="timeline-info">
-                                <h3><span>Responsive web Design</span><small></small></h3>
-                                <p>Discover the principles of responsive web design through hands-on projects and practical exercises. Master techniques for building flexible and adaptive layouts, optimizing images and media, and implementing responsive design patterns for modern web development.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-wrapper">
-                            <div class="timeline-yr">
-                                <span>2023</span>
-                            </div>
-                            <div class="timeline-info">
-                                <h3><span>Advanced Python</span><small></small></h3>
-                                <p>Master Python for powerful web applications, covering data manipulation, visualization, and machine learning, empowering you to extract actionable insights from complex datasets and drive data-driven decisions.</p>
-                            </div>
-                        </div>
-
-                        <div class="timeline-wrapper">
-                          <div class="timeline-yr">
-                              <span>2023</span>
-                          </div>
-                          <div class="timeline-info">
-                              <h3><span>Introduction to Ethical Hacking</span><small></small></h3>
-                              <p>Gain expertise in network security principles and practices, including cryptography and threat detection, to design and implement secure network infrastructures and protect against cyber threats.</p>
-                          </div>
-                      </div>
-
-                      <div class="timeline-wrapper">
-                        <div class="timeline-yr">
-                            <span>2023</span>
-                        </div>
-                        <div class="timeline-info">
-                            <h3><span>Introduction to Frontend development</span><small></small></h3>
-                            <p>Learn core coding concepts and problem-solving skills, laying a strong foundation for further exploration in software development and programming.</p>
-                        </div>
-                    </div>
-
-                    </div>
-                </div>
+                const icons = {
+                    recruiter: '💼',
+                    developer: '👨‍💻',
+                    stalker: '👀',
+                    adventurer: '🚀'
+                };
                 
+                document.getElementById('serverIcon').textContent = icons[server];
+                document.getElementById('userAvatar').textContent = icons[server];
+            }, 400);
+        }
 
+        // Channel navigation
+        function showChannel(channelName) {
+            // Update active state
+            document.querySelectorAll('.channel-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
 
+            // Hide all channels
+            document.querySelectorAll('.channel-content').forEach(content => {
+                content.style.display = 'none';
+            });
 
+            // Show selected channel
+            document.getElementById(channelName + 'Channel').style.display = 'block';
 
-                
+            // Update header
+            const channelNames = {
+                home: { name: 'welcome', desc: 'Welcome to my portfolio!' },
+                projects: { name: 'projects', desc: 'My latest work and creations' },
+                skills: { name: 'skills', desc: 'Technologies and tools I use' },
+                experience: { name: 'experience', desc: 'My professional journey' },
+                contact: { name: 'contact', desc: 'Get in touch with me' }
+            };
 
+            document.getElementById('channelName').textContent = channelNames[channelName].name;
+            document.getElementById('channelDescription').textContent = channelNames[channelName].desc;
 
+            // Scroll to top
+            document.getElementById('messagesContainer').scrollTop = 0;
+        }
 
+        // Modal content
+        const modalContent = {
+            library: {
+                title: 'Library Management System',
+                text: 'A comprehensive library management system built with Django and PostgreSQL. Features include book cataloging, member management, borrowing/returning workflows, and automated late fee calculations. Implemented RESTful APIs for mobile integration and admin dashboard for librarians. Supports barcode scanning and real-time inventory tracking.'
+            },
+            student: {
+                title: 'Student Management System',
+                text: 'Enterprise-level student information system developed using Java Spring Boot and MySQL. Handles student enrollment, attendance tracking, grade management, and parent-teacher communication. Includes role-based access control and automated report generation. Designed to scale for 10,000+ students with high performance.'
+            },
+            automation: {
+                title: 'Web Automation Suite',
+                text: 'Automated testing framework using Python and Selenium for web application testing. Reduced manual testing time by 70%. Includes data-driven testing, screenshot capture on failures, and comprehensive reporting. Integrated with CI/CD pipeline using Jenkins for continuous testing.'
+            },
+            api: {
+                title: 'REST API Development',
+                text: 'Scalable RESTful API built with Flask and MongoDB. Implements JWT authentication, rate limiting, and comprehensive error handling. Documented with Swagger/OpenAPI. Supports versioning and handles 10,000+ requests per day. Includes caching with Redis for improved performance.'
+            },
+            ecommerce: {
+                title: 'E-Commerce Platform',
+                text: 'Full-featured online shopping platform with Django and PostgreSQL. Features include product catalog, shopping cart, checkout process, payment integration with Stripe, order tracking, and admin panel. Responsive design for mobile shopping. Implements secure payment processing and inventory management.'
+            },
+            portfolio: {
+                title: 'Interactive Discord-Style Portfolio',
+                text: 'This Discord-inspired portfolio website showcasing projects and skills. Built with vanilla JavaScript for smooth animations and responsive design. Features channel navigation, modal popups, and dynamic content loading. Includes Discord loading animation and server selection.'
+            }
+        };
 
-            </div>
-        </div>
-    </section>
+        // Open modal
+        function openModal(type) {
+            const modal = document.getElementById('modal');
+            const content = modalContent[type];
 
+            document.getElementById('modalTitle').textContent = content.title;
+            document.getElementById('modalBody').innerHTML = `<p>${content.text}</p>`;
 
-    <!-- SERVICES -->    
-    <section class="services" id="services">
-      <div class="container">
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
 
-        <h2 class="servicehead">Services</h2>
+        // Close modal
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
 
-        <ul class="servicenotes">
-          <h3><li>Web Development</li></h3>
-          <p> Transforming visions into captivating websites through expert web development, empowering your online presence with cutting-edge solutions</p>
-          
-          <h3><li>App Development</li></h3>
-          <p> Unleashing innovation through seamless app development, crafting digital experiences that captivate and engage</p>
-          
-          <h3><li>Website Designing</li></h3>
-          <p> Crafting captivating online identities through bespoke website designing. Elevate your digital presence with sleek designs and user-centric interfaces</p>
+        // Close modal on background click
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
 
-          <h3><li>Mutual Funds</li></h3>
-          <p>Navigating the markets with precision and expertise, empowering your investments through strategic stock trading and mutual funds</p>
-          
-          <h3><li>Portfolio Analysis</li></h3>
-          <p> Unlocking insights and maximizing returns through meticulous portfolio analysis, guiding your investment decisions with data-driven precision</p>
+        // Close modal on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
 
-          <h3><li>Fund Management</li></h3>
-          <p> Harnessing expertise and precision to optimize fund management, delivering exceptional results through strategic investment strategies</p>
-        </ul>
-
-
-      </div>
-    </section>
-
-
-
-    <!-- CONTACT -->
-    <section class="contact py-5" id="contact">
-      <div class="container">
-        <div class="row">
-          
-          <div class="col-lg-5 mr-lg-5 col-12">
-            <div class="google-map w-100">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d1647.054174158625!2d76.52611502779386!3d10.934861776610902!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2sin!4v1707309929922!5m2!1sen!2sin" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
-            </div>
-
-            <div class="contact-info d-flex justify-content-between align-items-center py-4 px-lg-5">
-                <div class="contact-info-item">
-                  <h3 class="mb-3 text-white">Say hello</h3>
-                  <p class="footer-text mb-0"><a href="tel:+916238929850">+91 8089762610</a></p>
-
-                  <p><a href="mailto:milanabraham.offical@gmail.com">milanabraham.offical@gmail.com</a></p>
-                </div>
-
-<ul class="social-links">
-    <li><a href="https://www.facebook.com/milan.abraham.3954" class="fab fa-facebook-f" data-toggle="tooltip" data-placement="left" title="Facebook"></a></li>
-    <li><a href="https://www.instagram.com/_i.milan" class="fab fa-instagram" data-toggle="tooltip" data-placement="left" title="Instagram"></a></li>
-    <li><a href="#" class="fab fa-twitter" data-toggle="tooltip" data-placement="left" title="Twitter"></a></li>
-    <!-- Add more social icons here if needed -->
-</ul>
-
-            </div>
-          </div>
-
-          <div class="col-lg-6 col-12">
-            <div class="contact-form">
-              <h2 class="mb-4">Any Queries? Feel free to ask</h2>
-
-              <form action="" method="get">
-                <div class="row">
-                  <div class="col-lg-6 col-12">
-                    <input type="text" class="form-control" name="name" placeholder="Your Name" id="name">
-                  </div>
-
-                  <div class="col-lg-6 col-12">
-                    <input type="email" class="form-control" name="email" placeholder="Email" id="email">
-                  </div>
-
-                  <div class="col-lg-6 col-12">
-                    <input type="tel" class="form-control" name="mobile" placeholder="Mobile" id="mobile">
-                  </div>
-
-                  <div class="col-12">
-                    <textarea name="message" rows="6" class="form-control" id="message" placeholder="Messaging functionality not yet enabled..Please Co-operate. THANK YOU"></textarea>
-                  </div>
-
-                  <div class="ml-lg-auto col-lg-5 col-12">
-                    <input type="submit" class="form-control submit-btn" value="Send Button">
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-    
-    <!-- FOOTER -->
-     <footer class="footer py-5">
-          <div class="container">
-               <div class="row">
-                    <div class="col-lg-12 col-12">   
-                                               
-                        <p class="copyright-text text-center"> &copy; 2023 | All rights reserved</p>
-                        <p class="copyright-text text-center">Designed by <a rel="nofollow" href="https://www.instagram.com/_i.milan">Milan Korah Abraham</a></p>
-                          
-                        <div class="topscrollbutton">
-                          <button id="scrollToTopBtn" class="scroll-to-top-btn" title="Go to top"><i class="uil uil-arrow-up"></i></button>
-                        </div>
-
-                    </div>
-                </div>
-          </div> 
-     </footer>
-     
-
-
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/Headroom.js"></script>
-    <script src="js/jQuery.headroom.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/smoothscroll.js"></script>
-    <script src="js/custom.js"></script>
-    <script src="js/topscrollbutton.js"></script>
-
-  </body>
+        // Form submission
+        function handleSubmit(e) {
+            e.preventDefault();
+            alert('Message sent! I\'ll get back to you soon 🚀');
+            e.target.reset();
+        }
+    </script>
+</body>
 </html>
